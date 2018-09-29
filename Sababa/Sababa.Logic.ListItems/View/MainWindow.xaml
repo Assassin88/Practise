@@ -1,0 +1,60 @@
+﻿<Window x:Class="Sababa.Logic.ListItems.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sababa.Logic.ListItems"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </Window.Resources>
+
+    <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.8*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Column="0" ItemsSource="{Binding Phones}"
+                 SelectedItem="{Binding SelectedPhone, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path = Title}" />
+                        <TextBlock Text="{Binding Path=Company}" />
+                        <TextBlock Text="{Binding Path=Price}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Button Command="{Binding AddCommand}">AddItem</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" >
+            <TextBlock Text="Selected element:"  />
+            <TextBlock Text="Model" />
+            <TextBox Text="{Binding SelectedPhone.Title, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Company" />
+            <TextBox Text="{Binding SelectedPhone.Company, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Price" />
+            <TextBox Text="{Binding SelectedPhone.Price, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+    </Grid>
+</Window>

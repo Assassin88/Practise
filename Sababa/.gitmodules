@@ -1,0 +1,6 @@
+[submodule "Sababa.Data"]
+	path = Sababa.Data
+	url = ../../~ext_dmitric/sababa.data.git
+[submodule "Sababa.Crosscutting"]
+	path = Sababa.Crosscutting
+	url = ../../~ext_egori/sababa.crosscutting.git

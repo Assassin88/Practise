@@ -18,7 +18,7 @@ namespace FinalTaskFacebook.Models
 
         public async Task<T> GetRemoteClientAsync<T>(string accessToken, string endpoint, string args = null)
         {
-            var response = await _httpClient.GetAsync($"{endpoint}?access_token={accessToken}&{args}");
+            var response = await _httpClient.GetAsync($"{endpoint}?access_token={accessToken}{args}");
             if (!response.IsSuccessStatusCode)
                 return default(T);
 

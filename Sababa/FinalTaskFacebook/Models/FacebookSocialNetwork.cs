@@ -7,16 +7,14 @@ namespace FinalTaskFacebook.Models
 {
     public class FacebookSocialNetwork : IFacebookSocialNetwork
     {
-        private readonly string _userId;
-        private readonly string[] _permissions;
+        private readonly string _userId = "936346953231113";
+        private readonly string[] _permissions = { "public_profile", "email", "user_friends" };
         private readonly FBSession _session = FBSession.ActiveSession;
         private readonly IFacebookAgent _facebookAgent;
 
-        public FacebookSocialNetwork(IFacebookAgent facebook, string userId = null, string[] permissions = null)
+        public FacebookSocialNetwork(IFacebookAgent facebook)
         {
             _facebookAgent = facebook;
-            _userId = userId ?? "936346953231113";
-            _permissions = permissions ?? new string[] { "public_profile", "email", "user_friends" };
         }
 
         public async Task<FBResult> Authorize()
@@ -30,7 +28,7 @@ namespace FinalTaskFacebook.Models
         {
             if (fbResult.Succeeded)
             {
-                var result = await _facebookAgent.GetRemoteClientAsync<object>(_session.AccessTokenData.AccessToken, "me/friends", "fields=id,name,picture{url}");
+                var result = await _facebookAgent.GetRemoteClientAsync<object>(_session.AccessTokenData.AccessToken, "me/friends", "&fields=id,name,picture{url}");
                 return await AuthorizationAccount.GetInitializeAccountAsync(result, _session);
             }
 

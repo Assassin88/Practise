@@ -15,7 +15,7 @@ namespace Sababa.Logic.HttpDownloader.Classes
     {
         private readonly HttpClient _httpClient = new HttpClient();
         private long? _streamContentLength;
-        private int _bufferSize = 4 * 1024;
+        private int _bufferSize = 64 * 1024;
         public IDownloadFiles CurrentFiles { get; set; }
         public string StorageDir { get; set; } = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\DownloadFiles\\";
         public string StorageFile { get; set; }

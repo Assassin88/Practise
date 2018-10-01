@@ -59,6 +59,7 @@
     <Compile Include="Classes\Serializer.cs" />
     <Compile Include="Classes\StatusOfDownload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\DTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

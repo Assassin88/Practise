@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using FinalTaskFacebook.Models;
+using FinalTaskFacebook.Configuration;
 
 namespace FinalTaskFacebook.ViewModels
 {
@@ -18,13 +18,5 @@ namespace FinalTaskFacebook.ViewModels
         // The StartPage view model.
         // </value>
         public StartPageViewModel StartPageViewModel => _container.Resolve<StartPageViewModel>();
-
-        // <summary>
-        // The cleanup.
-        // </summary>
-        public static void Cleanup()
-        {
-            // TODO Clear the ViewModels
-        }
     }
 }

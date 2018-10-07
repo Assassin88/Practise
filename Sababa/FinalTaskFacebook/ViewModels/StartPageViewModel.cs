@@ -8,7 +8,7 @@ namespace FinalTaskFacebook.ViewModels
 {
     public class StartPageViewModel : ViewModelBase
     {
-        private readonly IFacebookSocialNetwork _socialNetwork;
+        private readonly ISocialNetwork _socialNetwork;
         private Account _account = new EmptyAccount();
         public RelayCommand ClearSession { get; private set; }
         public RelayCommand Authorization { get; private set; }
@@ -19,10 +19,9 @@ namespace FinalTaskFacebook.ViewModels
             get => _selectedFriend;
             set
             {
-                if (value != _selectedFriend)
+                if (_selectedFriend != value)
                 {
                     _selectedFriend = value;
-                    RaisePropertyChanged();
                 }
             }
         }
@@ -32,15 +31,14 @@ namespace FinalTaskFacebook.ViewModels
             get => _account;
             set
             {
-                if (value != _account)
+                if (_account != value)
                 {
                     _account = value;
-                    RaisePropertyChanged();
                 }
             }
         }
 
-        public StartPageViewModel(IFacebookSocialNetwork socialNetwork)
+        public StartPageViewModel(ISocialNetwork socialNetwork)
         {
             _socialNetwork = socialNetwork;
             if (IsInDesignMode)
@@ -54,7 +52,7 @@ namespace FinalTaskFacebook.ViewModels
             try
             {
                 var resultAuthorize = await _socialNetwork.Authorize();
-                Account = await _socialNetwork.GetAccountAsync(resultAuthorize);
+                Account = await _socialNetwork.GetAccountAsync(resultAuthorize, "me/friends", "&fields=id,name,picture{url}");
             }
             catch (ArgumentException)
             {

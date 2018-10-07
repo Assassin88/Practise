@@ -104,14 +104,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ContainerConfig.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AuthorizationAccount.cs" />
-    <Compile Include="Models\ContainerConfig.cs" />
     <Compile Include="Models\EmptyAccount.cs" />
-    <Compile Include="Models\FacebookAgent.cs" />
     <Compile Include="Models\FacebookSocialNetwork.cs" />
-    <Compile Include="Models\IFacebookAgent.cs" />
     <Compile Include="Models\IFacebookSocialNetwork.cs" />
+    <Compile Include="Models\Serializer.cs" />
     <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />

@@ -34,6 +34,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DIContainer\Container.cs" />
+    <Compile Include="DIContainer\ContainerBuilder.cs" />
+    <Compile Include="DIContainer\IContainer.cs" />
+    <Compile Include="DIContainer\IRegistrationBuilder.cs" />
+    <Compile Include="DIContainer\SpecificType.cs" />
     <Compile Include="HashObjects\HashObject.cs" />
     <Compile Include="HashObjects\HashObject2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +55,13 @@
     <None Include="Sababa.Logic.nuspec">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ngen\Assasmbly version was updated.png" />
+    <Content Include="Ngen\Change version project.png" />
+    <Content Include="Ngen\Did native image assambly.png" />
+    <Content Include="Ngen\Did native image was created.png" />
+    <Content Include="Ngen\Updated native project.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

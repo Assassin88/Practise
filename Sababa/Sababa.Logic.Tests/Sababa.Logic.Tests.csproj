@@ -39,6 +39,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBenchmark\BenchTest.cs" />
     <Compile Include="TestCuncurrentDictionary\TestDictionary.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\CustomTypeAsSelf.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\Director.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\IDirector.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\IWorker.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\Manager.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\NotRegisteredInterface.cs" />
+    <Compile Include="TestsSelfDIContainer\CustomTypes\Worker.cs" />
+    <Compile Include="TestsSelfDIContainer\TestSelfDIContainer.cs" />
+    <Compile Include="TestsSelfDIContainer\TestSelfDIContainerBenchmark.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

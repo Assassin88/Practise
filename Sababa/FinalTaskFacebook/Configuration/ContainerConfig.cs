@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using FinalTaskFacebook.Models;
 using FinalTaskFacebook.ViewModels;
 
-namespace FinalTaskFacebook.Models
+namespace FinalTaskFacebook.Configuration
 {
     public static class ContainerConfig
     {
@@ -16,10 +17,7 @@ namespace FinalTaskFacebook.Models
             containerBuilder.RegisterType<StartPageViewModel>().AsSelf();
 
             containerBuilder.RegisterType<FacebookSocialNetwork>()
-                .As<IFacebookSocialNetwork>().SingleInstance();
-
-            containerBuilder.RegisterType<FacebookAgent>()
-                .As<IFacebookAgent>().SingleInstance();
+                .As<ISocialNetwork>().SingleInstance();
 
             return containerBuilder.Build();
         }

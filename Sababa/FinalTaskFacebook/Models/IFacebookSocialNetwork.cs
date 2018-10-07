@@ -3,7 +3,7 @@ using winsdkfb;
 
 namespace FinalTaskFacebook.Models
 {
-    public interface IFacebookSocialNetwork
+    public interface ISocialNetwork
     {
         /// <summary>
         /// Authorizes the current user.
@@ -21,7 +21,9 @@ namespace FinalTaskFacebook.Models
         /// Initializes the current account.
         /// </summary>
         /// <param name="fbResult">Received server response about the user.</param>
+        /// <param name="endpoint">Received user data.</param>
+        /// <param name="args">Advanced arguments about friends.</param>
         /// <returns></returns>
-        Task<Account> GetAccountAsync(FBResult fbResult);
+        Task<Account> GetAccountAsync(FBResult fbResult, string endpoint, string args = null);
     }
 }

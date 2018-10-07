@@ -1,42 +1,42 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using winsdkfb;
 
 namespace FinalTaskFacebook.Models
 {
-    internal class AuthorizationAccount
+    internal class AccountInitializer
     {
         /// <summary>
-        /// Initializes the current account with authorized user data.
+        /// Get the current account with authorized user data.
         /// </summary>
-        /// <param name="param">Serialized user object.</param>
-        /// <param name="session">Сurrent user session.</param>
+        /// <jsonFriends name="jsonFriends">Serialized user object.</jsonFriends>
+        /// <jsonFriends name="session">Сurrent user session.</jsonFriends>
         /// <returns></returns>
-        internal static Task<Account> GetInitializeAccountAsync(object param, FBSession session)
+        internal static Account GetAccount(object jsonFriends, FBSession session)
         {
-            return Task.Run(() =>
+            return InitializeAccount(jsonFriends, session);
+        }
+
+        private static Account InitializeAccount(object jsonFriends, FBSession session)
+        {
+            var account = new Account()
             {
-                var account = new Account()
+                Id = session.User.Id,
+                Name = session.User.Name,
+                UriPicture = session.User.Picture.Data.Url
+            };
+
+            var users = JObject.Parse(jsonFriends.ToString());
+            foreach (var item in users.GetValue("data"))
+            {
+                account.AccountFriends.Add(new UserFriend()
                 {
-                    Id = session.User.Id,
-                    Name = session.User.Name,
-                    UriPicture = session.User.Picture.Data.Url
-                };
+                    Id = (string)item["id"],
+                    Name = (string)item["name"],
+                    UriPicture = (string)item["picture"]["data"]["url"]
+                });
+            }
 
-                var users = JObject.Parse(param.ToString());
-
-                foreach (var item in users.GetValue("data"))
-                {
-                    account.AccountFriends.Add(new UserFriend()
-                    {
-                        Id = (string)item["id"],
-                        Name = (string)item["name"],
-                        UriPicture = (string)item["picture"]["data"]["url"]
-                    });
-                }
-
-                return account;
-            });
+            return account;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Autofac;
-using FinalTaskFacebook.Models;
+using AutoMapper;
+using FinalTaskFacebook.Services.Abstraction;
+using FinalTaskFacebook.Services.Implementation;
 using FinalTaskFacebook.ViewModels;
 
 namespace FinalTaskFacebook.Configuration
@@ -13,6 +15,8 @@ namespace FinalTaskFacebook.Configuration
         public static IContainer Configure()
         {
             var containerBuilder = new ContainerBuilder();
+
+            Mapper.Initialize(config => config.AddProfiles(typeof(App)));
 
             containerBuilder.RegisterType<StartPageViewModel>().AsSelf();
 

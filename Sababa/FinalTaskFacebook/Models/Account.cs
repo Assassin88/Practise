@@ -14,6 +14,5 @@ namespace FinalTaskFacebook.Models
         public List<UserFriend> AccountFriends { get; set; } = new List<UserFriend>();
 
         public override string ToString() => $"Id: {Id}, Name: {Name}, UriPicture: {UriPicture}.";
-
     }
 }

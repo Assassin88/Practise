@@ -1,17 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FinalTaskFacebook.Models
 {
-    public class UserFriend : INotifyPropertyChanged
+    public class UserFriend
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public string UriPicture { get; set; } 
+        public string UriPicture { get; set; }
+
+        public List<MusicFriends> MusicCollection { get; set; }
+
+        public string AlbumNumber => $"AlbumNumber: {MusicCollection.Count.ToString()}";
 
         public override string ToString() => $"ID: {Id}, Name: {Name}, UriPicture: {UriPicture}.";
-
     }
 }

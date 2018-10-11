@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using FinalTaskFacebook.Models;
 using winsdkfb;
 
-namespace FinalTaskFacebook.Models
+namespace FinalTaskFacebook.Services.Abstraction
 {
     public interface ISocialNetwork
     {
@@ -9,7 +10,7 @@ namespace FinalTaskFacebook.Models
         /// Authorizes the current user.
         /// </summary>
         /// <returns></returns>
-        Task<FBResult> Authorize();
+        Task<FBResult> Authorize(string userId, params string[] permissions);
 
         /// <summary>
         /// Deletes the current user session.

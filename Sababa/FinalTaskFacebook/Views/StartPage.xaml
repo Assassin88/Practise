@@ -25,18 +25,16 @@
 
                 <Border 
                     CornerRadius="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch" MinWidth="550" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                    VerticalAlignment="Stretch" MinWidth="360" Grid.ColumnSpan="2" Grid.RowSpan="2" />
 
-                <Image 
-                    Margin="5" MaxWidth="100" MaxHeight="100" HorizontalAlignment="Left" Grid.RowSpan="2" 
+                <Image Margin="5" MaxWidth="100" MaxHeight="100" HorizontalAlignment="Left" Grid.RowSpan="2" 
                     Grid.Column="0" Source="{Binding Path=UriPicture}" />
 
-                <TextBlock 
-                    Grid.Column="1" Text="{Binding Path=Id}" TextAlignment="Left" FontSize="22" Foreground="Black" 
-                    VerticalAlignment="Bottom" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}" TextAlignment="Left" 
+                    FontSize="22" Foreground="Black" VerticalAlignment="Bottom" />
 
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Name}" TextAlignment="Left" 
-                    FontSize="22" Foreground="Black" VerticalAlignment="Top" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=AlbumNumber}" TextAlignment="Left"
+                           FontSize="22" Foreground="Black" VerticalAlignment="Top"/>
 
             </Grid>
         </DataTemplate>
@@ -45,8 +43,8 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2E2D2D">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="650"/>
-            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="800"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -82,9 +80,6 @@
             <Image HorizontalAlignment="Left" Margin="20"  Source="{Binding Account.UriPicture}" Height="150"  
                    VerticalAlignment="Stretch" Width="150" Stretch="Fill" Grid.Row="2" />
 
-            <TextBlock HorizontalAlignment="Right" Text="{Binding Account.Id}" VerticalAlignment="Top" FontSize="18" 
-                       Width="300" Margin="0, 80, 10, 10" Grid.Row="2" />
-
             <TextBlock HorizontalAlignment="Right"  Text="{Binding Account.Name}" VerticalAlignment="Top" 
                        Margin="0, 140, 10, 10" Width="300"  FontSize="18" Grid.Row="2" />
 
@@ -94,13 +89,10 @@
             <Image Grid.Row="4" Width="150" Height="150" Source="{Binding SelectedFriend.UriPicture}" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20"/>
 
-            <TextBlock HorizontalAlignment="Right" Text="{Binding SelectedFriend.Id}" VerticalAlignment="Top" 
-                       FontSize="18" Width="300" Margin="0, 50, 10, 10" Grid.Row="4" />
-
             <TextBlock HorizontalAlignment="Right"  Text="{Binding SelectedFriend.Name}" VerticalAlignment="Top" 
                        Margin="0,120, 10, 10" Width="300"  FontSize="18" Grid.Row="4" />
 
-            <Image Grid.Row="5" Margin="15" Source="https://soft-file.ru/wp-content/uploads/2014/03/facebook-logo-text-1.jpg" />
+            <!--<Image Grid.Row="5" Margin="15" Source="https://soft-file.ru/wp-content/uploads/2014/03/facebook-logo-text-1.jpg" />-->
 
         </Grid>
 

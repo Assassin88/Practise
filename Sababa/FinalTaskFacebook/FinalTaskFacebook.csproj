@@ -115,6 +115,7 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AuthorizationAccount.cs" />
     <Compile Include="Models\MusicFriends.cs" />
+    <Compile Include="Models\MusicGroup.cs" />
     <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstraction\ISocialNetwork.cs" />

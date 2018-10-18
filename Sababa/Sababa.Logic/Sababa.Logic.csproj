@@ -41,6 +41,13 @@
     <Compile Include="DIContainer\SpecificType.cs" />
     <Compile Include="HashObjects\HashObject.cs" />
     <Compile Include="HashObjects\HashObject2.cs" />
+    <Compile Include="Multithreading\Classes\BaseWorkThreads.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithAutoResetEvent.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithInterlocked.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithLock.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithoutSync.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithSemaphore.cs" />
+    <Compile Include="Multithreading\Classes\WorkThreadsWithSemaphoreSlim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelfCuncurrentDictionary\ISyncDictionary.cs" />
     <Compile Include="SelfCuncurrentDictionary\SyncDictionary.cs" />

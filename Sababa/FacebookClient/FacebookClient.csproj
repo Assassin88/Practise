@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstraction\Abstraction\" />
-    <Folder Include="Abstraction\Implementation\" />
     <Folder Include="DTOModels\" />
     <Folder Include="Mappers\" />
     <Folder Include="Models\" />

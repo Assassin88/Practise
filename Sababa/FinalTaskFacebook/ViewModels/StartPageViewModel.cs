@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FinalTaskFacebook.Models;
-using FinalTaskFacebook.Services.Abstraction;
+using FacebookClient.Models;
+using FacebookClient.Services.Abstraction;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Windows.UI.Popups;
@@ -15,16 +13,19 @@ namespace FinalTaskFacebook.ViewModels
     public class StartPageViewModel : ViewModelBase
     {
         private readonly ISocialNetwork _socialNetwork;
+        private readonly IAccount _iAccount;
         private Account _account;
+        public double MusicProgress { get; set; }
+        private UserFriend _selectedFriend;
+        private ObservableCollection<MusicGroup> _musicCollection;
+        private readonly string _userId = "936346953231113";
+        private readonly string _endPoint = "me/friends";
+        private readonly string[] _permitions = { "public_profile", "email", "user_friends", "user_likes" };
+        private readonly string _args = "&fields=id,name,picture{url},music{id,name}";
+
         public RelayCommand ClearSession { get; private set; }
         public RelayCommand Authorization { get; private set; }
         public RelayCommand MusicCommand { get; private set; }
-        private const double Percent = 100;
-
-        public double MusicProgress { get; set; }
-
-        private UserFriend _selectedFriend;
-        private ObservableCollection<MusicGroup> _musicCollection;
 
         public ObservableCollection<MusicGroup> MusicCollection
         {
@@ -35,7 +36,6 @@ namespace FinalTaskFacebook.ViewModels
                     _musicCollection = value;
             }
         }
-
         public UserFriend SelectedFriend
         {
             get => _selectedFriend;
@@ -47,7 +47,6 @@ namespace FinalTaskFacebook.ViewModels
                 }
             }
         }
-
         public Account Account
         {
             get => _account;
@@ -60,23 +59,22 @@ namespace FinalTaskFacebook.ViewModels
             }
         }
 
-        public StartPageViewModel(ISocialNetwork socialNetwork)
+        public StartPageViewModel(ISocialNetwork socialNetwork, IAccount iAccount)
         {
             _socialNetwork = socialNetwork;
+            _iAccount = iAccount;
             if (IsInDesignMode)
                 return;
             InitializeAccount();
             InitializeCommand();
         }
 
-        private async void InitializeAccount()
+        private async Task InitializeAccount()
         {
-
             try
             {
-                var resultAuthorize = await _socialNetwork.Authorize("936346953231113", "public_profile", "email", "user_friends", "user_likes");
-                Account = await _socialNetwork.GetAccountAsync(resultAuthorize, "me/friends", "&fields=id,name,picture{url},music{id,name}");
-
+                Account = await _socialNetwork.AuthorizeAsync(_userId, _permitions);
+                Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.GetToken(), _endPoint, _args);
             }
             catch (ArgumentException)
             {
@@ -98,14 +96,14 @@ namespace FinalTaskFacebook.ViewModels
         private async void Registration()
         {
             if (Account == null)
-                InitializeAccount();
+                await InitializeAccount();
             else
                 await new MessageDialog("You are already authorized !!!").ShowAsync();
         }
 
         private void Clear()
         {
-            _socialNetwork.ClearSession();
+            _socialNetwork.LogoutAsync();
             Account = null;
             MusicCollection = null;
             MusicProgress = 0;
@@ -125,23 +123,10 @@ namespace FinalTaskFacebook.ViewModels
                 MusicProgress = 0;
             }
 
-            var steep = Percent / Account.AccountFriends.Select(x => x.MusicCollection.Count).Sum();
-            List<MusicFriends> musicFriends = new List<MusicFriends>();
-            foreach (var friend in Account.AccountFriends)
-            {
-                foreach (var item in friend.MusicCollection)
-                {
-                    musicFriends.Add(new MusicFriends() { Id = item.Id, Name = item.Name });
-                    MusicProgress += steep;
-                    await Task.Delay(2);
-                }
-            }
-
-            var sortCollection = from obj in musicFriends group obj by new { obj.Name }
-                                 into gr orderby gr.Count() descending
-                                 select new MusicGroup() { Name = gr.Key.Name, Count = gr.Count() };
-            MusicCollection = new ObservableCollection<MusicGroup>(sortCollection);
+            Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.GetToken(), _endPoint, _args);
+            var progress = new Progress<double>(pr => MusicProgress = pr);
+            var musicGroups = await Task.Run(() => _iAccount.GetMusicFriendsGroupByPerformer(progress));
+            MusicCollection = new ObservableCollection<MusicGroup>(musicGroups);
         }
-
     }
 }

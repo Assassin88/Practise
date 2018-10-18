@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using AutoMapper;
-using FinalTaskFacebook.Services.Abstraction;
+using FacebookClient.Models;
+using FacebookClient.Services.Abstraction;
+using FacebookClient.Services.Implementation;
 using FinalTaskFacebook.Services.Implementation;
 using FinalTaskFacebook.ViewModels;
 
@@ -16,12 +18,14 @@ namespace FinalTaskFacebook.Configuration
         {
             var containerBuilder = new ContainerBuilder();
 
-            Mapper.Initialize(config => config.AddProfiles(typeof(App)));
+            Mapper.Initialize(config => config.AddProfiles(typeof(Account)));
+
+            containerBuilder.RegisterType<AuthorizationSocialNetwork>()
+                .As<ISocialNetwork>().SingleInstance();
+
+            containerBuilder.RegisterType<InitialAccount>().As<IAccount>().SingleInstance();
 
             containerBuilder.RegisterType<StartPageViewModel>().AsSelf();
-
-            containerBuilder.RegisterType<FacebookSocialNetwork>()
-                .As<ISocialNetwork>().SingleInstance();
 
             return containerBuilder.Build();
         }

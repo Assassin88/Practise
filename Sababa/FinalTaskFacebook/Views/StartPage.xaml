@@ -92,7 +92,6 @@
                         <ColumnDefinition Width="0.3*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--<Border  BorderBrush="Black" Grid.RowSpan="6" BorderThickness="7" />-->
                     <Grid Grid.Column="0">
                         <TextBlock  Text="Composition name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
                         <Border  BorderBrush="Black" BorderThickness="2" />

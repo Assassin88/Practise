@@ -24,7 +24,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border CornerRadius="5" BorderBrush="Black" BorderThickness="3"  HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch" MinWidth="360" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                    VerticalAlignment="Stretch" MinWidth="380" Grid.ColumnSpan="2" Grid.RowSpan="2" />
 
                 <Image Margin="5" MaxWidth="100" MaxHeight="100" HorizontalAlignment="Left" Grid.RowSpan="2" 
                     Grid.Column="0" Source="{Binding Path=UriPicture}" />
@@ -33,24 +33,19 @@
                     FontSize="22" Foreground="Black" VerticalAlignment="Bottom" />
 
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=AlbumNumber}" TextAlignment="Left"
-                           FontSize="22" Foreground="Black" VerticalAlignment="Top"/>
+                           FontSize="20" Foreground="Black" VerticalAlignment="Top"/>
 
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Name="MusicTemplate">
-            <Grid >
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+            <Grid>
 
                 <Border BorderBrush="Black" BorderThickness="2" CornerRadius="1"  HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch" MinWidth="390" Grid.ColumnSpan="2" />
+                    VerticalAlignment="Stretch" MinWidth="380" />
 
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="5, 0, 0, 5"  AllowDrop="True"  Text="{Binding Path=Name}" FontSize="14"></TextBlock>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Path=Count}" FontSize="18"></TextBlock>
+                <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Padding="5, 0, 0, 5"  
+                            AllowDrop="True"  Text="{Binding Path=Name}" FontSize="14" />
 
             </Grid>
         </DataTemplate>
@@ -58,67 +53,35 @@
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2E2D2D">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450"/>
             <ColumnDefinition Width="800"/>
+            <ColumnDefinition Width="450"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
 
-            <ListBox ItemsSource="{Binding Account.AccountFriends}" ItemTemplate="{StaticResource lbTemplate}"
-                SelectedItem="{Binding SelectedFriend, Mode=TwoWay}" Margin="25, 25, 5, 25" BorderThickness="7" />
-
-        </Grid>
-
-        <Grid Grid.Column="1" Margin="5, 25, 25, 25" Background="#FFE8EAE6" >
+        <Grid Grid.Column="0" Margin="25, 25, 0, 25" Background="#FFE8EAE6" >
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.45*" />
                 <ColumnDefinition Width="0.55*" />
-                <ColumnDefinition Width="0.43*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Column="0">
+            <Grid Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.05*"/>
                     <RowDefinition Height="0.95*"/>
-                    <RowDefinition Height="0.05*"/>
                 </Grid.RowDefinitions>
 
-                <Border  BorderBrush="Black" Grid.RowSpan="6" BorderThickness="7" />
+                <Border  BorderBrush="Black"  BorderThickness="4" />
 
-                <Grid Row="0">
+                <Grid Grid.Row="0">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.7*"/>
-                        <ColumnDefinition Width="0.3*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0">
-                        <TextBlock  Text="Composition name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
-                        <Border  BorderBrush="Black" BorderThickness="2" />
-                    </Grid>
-
-                    <Grid Grid.Column="1">
-                        <TextBlock  Text="Rank" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                        <Border  BorderBrush="Black" BorderThickness="2" />
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Row="1">
-
-                    <ListBox ItemsSource="{Binding MusicCollection}" ItemTemplate="{StaticResource MusicTemplate}" BorderThickness="7">
-
-                    </ListBox>
+                    <ListBox ItemsSource="{Binding Account.AccountFriends}" ItemTemplate="{StaticResource lbTemplate}"
+                             SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"  BorderThickness="7" />
 
                 </Grid>
 
-                <Grid Grid.Row="2">
-
-                    <ProgressBar Minimum = "0" Maximum = "100" Value = "{Binding MusicProgress}" BorderThickness="3" Background="RoyalBlue" Foreground="Black" Height = "15" Margin="15, 0, 15, 0" />
-                    <Border  BorderBrush="Black" BorderThickness="3" />
-                </Grid>
             </Grid>
 
-            <Grid Column="1">
+            <Grid Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="70"/>
@@ -130,14 +93,11 @@
 
                 <Border  BorderBrush="Black" Grid.RowSpan="6" BorderThickness="7" />
 
-                <Button Command="{Binding Authorization}" Content="Authorize" HorizontalAlignment="Right" 
+                <Button Command="{Binding LoginCommand}" Content="Authorize" HorizontalAlignment="Right" 
                     Margin="0,10,120,0" Width="90" VerticalAlignment="Center" />
 
-                <Button Command="{Binding ClearSession}" HorizontalAlignment="Right" Margin="0,10,15,0" 
+                <Button Command="{Binding ClearSessionCommand}" HorizontalAlignment="Right" Margin="0,10,15,0" 
                     VerticalAlignment="Center" Width="90" Content="Logout" />
-
-                <Button Command="{Binding MusicCommand}" HorizontalAlignment="Left" Margin="15,10,0,0" 
-                        VerticalAlignment="Center" Width="90" Content="MusicList" />
 
                 <TextBlock HorizontalAlignment="Center" Text="Authorized account:" VerticalAlignment="Bottom" 
                        FontSize="20" Grid.Row="1" />
@@ -146,10 +106,10 @@
                    VerticalAlignment="Top"  Stretch="Fill" Grid.Row="2" />
 
                 <TextBlock HorizontalAlignment="Left"  Text="{Binding Account.Name}" VerticalAlignment="Bottom" 
-                       Margin="20, 0, 10, 45" Width="270"  FontSize="18" Grid.Row="2" />
+                       Margin="20, 0, 10, 50" Width="270"  FontSize="18" Grid.Row="2" />
 
-                <TextBlock HorizontalAlignment="Left"  Text="{Binding Account.Name}" VerticalAlignment="Bottom" 
-                           Margin="20, 0, 10, 15" Width="270"  FontSize="18" Grid.Row="2" />
+                <Button HorizontalAlignment="Left" Command="{Binding ShowMusicFriendsCommand}" Content="ShowMusicFriends" VerticalAlignment="Bottom" 
+                           Margin="20, 0, 5, 5" Width="180"  FontSize="18" Grid.Row="2" />
 
                 <TextBlock Grid.Row="3" Text="Selected User:" FontSize="20" HorizontalAlignment="Center" 
                        VerticalAlignment="Center" />
@@ -160,13 +120,23 @@
                 <TextBlock HorizontalAlignment="Left"  Text="{Binding SelectedFriend.Name}" VerticalAlignment="Bottom" 
                        Margin="20, 0, 0, 45" Width="270"  FontSize="18" Grid.Row="4" />
 
-                <TextBlock HorizontalAlignment="Left"  Text="{Binding SelectedFriend.AlbumNumber}" VerticalAlignment="Bottom" 
-                           Margin="20, 0, 0, 10" Width="270"  FontSize="18" Grid.Row="4" />
-
                 <Image Grid.Row="5" Margin="15" Source="https://soft-file.ru/wp-content/uploads/2014/03/facebook-logo-text-1.jpg" />
 
             </Grid>
 
         </Grid>
+
+
+        <Grid Grid.Column="1" Margin="0, 25, 25, 25" >
+
+            <Grid Grid.Row="0">
+                <ListBox ItemsSource="{Binding SelectedFriend.MusicCollection}" ItemTemplate="{StaticResource MusicTemplate}" 
+                         BorderThickness="7" />
+
+            </Grid>
+
+        </Grid>
+
+
     </Grid>
 </Page>

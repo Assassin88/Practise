@@ -19,9 +19,8 @@ namespace FacebookClient.Services.Abstraction
         /// <summary>
         /// return user friends music group by performer.
         /// </summary>
-        /// <param name="userFriendsList"></param>
-        /// <param name="musicProgress"></param>
+        /// <param name="musicProgress">Returns the percentage of music downloaded.</param>
         /// <returns></returns>
-        IEnumerable<MusicGroup> GetMusicFriendsGroupByPerformer(IProgress<double> musicProgress);
+        Task<IEnumerable<MusicGroup>> GetMusicFriendsGroupByPerformerAsync(IProgress<double> musicProgress);
     }
 }

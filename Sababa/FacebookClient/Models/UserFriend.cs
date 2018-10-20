@@ -11,7 +11,7 @@ namespace FacebookClient.Models
 
         public List<MusicFriends> MusicCollection { get; set; }
 
-        public string AlbumNumber => $"AlbumNumber: {MusicCollection.Count.ToString()}";
+        public string AlbumNumber => $"CountMusicPerformers: {MusicCollection.Count.ToString()}";
 
         public override string ToString() => $"ID: {Id}, Name: {Name}, UriPicture: {UriPicture}.";
     }

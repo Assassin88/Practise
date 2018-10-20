@@ -11,12 +11,14 @@ namespace FinalTaskFacebook.ViewModels
     {
         private readonly IContainer _container = ContainerConfig.Configure();
 
-        // <summary>
-        // Gets the StartPage view model.
-        // </summary>
-        // <value>
-        // The StartPage view model.
-        // </value>
+        /// <summary>
+        /// Gets the StartPage view model.
+        /// </summary>
         public StartPageViewModel StartPageViewModel => _container.Resolve<StartPageViewModel>();
+
+        /// <summary>
+        /// Gets the FriendsPage view model.
+        /// </summary>
+        public FriendsPageViewModel FriendsPageViewModel => _container.Resolve<FriendsPageViewModel>();
     }
 }

@@ -5,6 +5,8 @@ using FacebookClient.Services.Abstraction;
 using FacebookClient.Services.Implementation;
 using FinalTaskFacebook.Services.Implementation;
 using FinalTaskFacebook.ViewModels;
+using FinalTaskFacebook.Views;
+using GalaSoft.MvvmLight.Views;
 
 namespace FinalTaskFacebook.Configuration
 {
@@ -18,6 +20,11 @@ namespace FinalTaskFacebook.Configuration
         {
             var containerBuilder = new ContainerBuilder();
 
+            var navigationService = CreateNavigationService();
+            containerBuilder.RegisterInstance(navigationService).As<INavigationService>().SingleInstance();
+            containerBuilder.RegisterType<StartPageViewModel>().AsSelf();
+            containerBuilder.RegisterType<FriendsPageViewModel>().AsSelf();
+
             Mapper.Initialize(config => config.AddProfiles(typeof(Account)));
 
             containerBuilder.RegisterType<AuthorizationSocialNetwork>()
@@ -25,9 +32,14 @@ namespace FinalTaskFacebook.Configuration
 
             containerBuilder.RegisterType<InitialAccount>().As<IAccount>().SingleInstance();
 
-            containerBuilder.RegisterType<StartPageViewModel>().AsSelf();
-
             return containerBuilder.Build();
+        }
+
+        private static INavigationService CreateNavigationService()
+        {
+            var service = new NavigationService();
+            service.Configure("FriendsPage", typeof(FriendsPage));
+            return service;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FacebookClient.Exceptions;
 using FacebookClient.Models;
 using FacebookClient.Services.Abstraction;
 using Windows.Security.Authentication.Web;
@@ -8,7 +9,7 @@ using winsdkfb;
 namespace FinalTaskFacebook.Services.Implementation
 {
     public class AuthorizationSocialNetwork : ISocialNetwork
-    {   
+    {
         private readonly FBSession _session;
 
         public AuthorizationSocialNetwork()
@@ -23,9 +24,7 @@ namespace FinalTaskFacebook.Services.Implementation
             var fbResult = await _session.LoginAsync(new FBPermissions(permissions));
 
             if (!fbResult.Succeeded)
-            {
-                throw new ArgumentException("The argument typeOf FBResult has invalid value.");
-            }
+                throw new FacebookResultException("The login on Facebook had invalid result. Please, log in Facebook!!!");
 
             return GetAccount();
         }
@@ -35,21 +34,16 @@ namespace FinalTaskFacebook.Services.Implementation
             await _session.LogoutAsync();
         }
 
-        public string GetToken()
-        {
-            return _session.AccessTokenData.AccessToken;
-        }
+        public string Token => _session.AccessTokenData.AccessToken;
 
         private Account GetAccount()
         {
-            var account = new Account()
+            return new Account()
             {
                 Id = _session.User.Id,
                 Name = _session.User.Name,
                 UriPicture = _session.User.Picture.Data.Url
             };
-
-            return account;
         }
 
     }

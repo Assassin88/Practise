@@ -21,6 +21,6 @@ namespace FacebookClient.Services.Abstraction
         /// Get access token current session.
         /// </summary>
         /// <returns></returns>
-        string GetToken();
+        string Token { get; }
     }
 }

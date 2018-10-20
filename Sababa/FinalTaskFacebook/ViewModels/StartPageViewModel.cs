@@ -7,6 +7,9 @@ using FacebookClient.Services.Abstraction;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Windows.UI.Popups;
+using FacebookClient.Exceptions;
+using FacebookClient.Settings;
+using GalaSoft.MvvmLight.Views;
 
 namespace FinalTaskFacebook.ViewModels
 {
@@ -14,18 +17,14 @@ namespace FinalTaskFacebook.ViewModels
     {
         private readonly ISocialNetwork _socialNetwork;
         private readonly IAccount _iAccount;
+        private readonly INavigationService _navigationService;
         private Account _account;
-        public double MusicProgress { get; set; }
         private UserFriend _selectedFriend;
         private ObservableCollection<MusicGroup> _musicCollection;
-        private readonly string _userId = "936346953231113";
-        private readonly string _endPoint = "me/friends";
-        private readonly string[] _permitions = { "public_profile", "email", "user_friends", "user_likes" };
-        private readonly string _args = "&fields=id,name,picture{url},music{id,name}";
 
-        public RelayCommand ClearSession { get; private set; }
-        public RelayCommand Authorization { get; private set; }
-        public RelayCommand MusicCommand { get; private set; }
+        public RelayCommand ClearSessionCommand { get; private set; }
+        public RelayCommand LoginCommand { get; private set; }
+        public RelayCommand ShowMusicFriendsCommand { get; private set; }
 
         public ObservableCollection<MusicGroup> MusicCollection
         {
@@ -55,78 +54,68 @@ namespace FinalTaskFacebook.ViewModels
                 if (_account != value)
                 {
                     _account = value;
+                    RaisePropertyChanged("ShowMusicFriendsCommand");
+                    RaisePropertyChanged("LoginCommand");
+                    RaisePropertyChanged("ClearSessionCommand");
                 }
             }
         }
 
-        public StartPageViewModel(ISocialNetwork socialNetwork, IAccount iAccount)
+        public StartPageViewModel(ISocialNetwork socialNetwork, IAccount iAccount, INavigationService navigationService)
         {
             _socialNetwork = socialNetwork;
             _iAccount = iAccount;
+            _navigationService = navigationService;
             if (IsInDesignMode)
                 return;
-            InitializeAccount();
-            InitializeCommand();
+            LoginAccountAsync();
+            InitializeCommands();
         }
 
-        private async Task InitializeAccount()
+        private async Task LoginAccountAsync()
         {
             try
             {
-                Account = await _socialNetwork.AuthorizeAsync(_userId, _permitions);
-                Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.GetToken(), _endPoint, _args);
+                Account = await _socialNetwork.AuthorizeAsync(FbSettings.UserId, FbSettings.Permissions);
+                Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.Token, FbSettings.EndPoint, FbSettings.Args);
             }
-            catch (ArgumentException)
+            catch (FacebookResultException ex)
             {
-                await new MessageDialog("To enter the application you need to log in.").ShowAsync();
+                await new MessageDialog(ex.Message).ShowAsync();
             }
             catch (HttpRequestException)
             {
                 await new MessageDialog("Problems connecting to a remote server.").ShowAsync();
             }
+            catch (HttpResponseException ex)
+            {
+                await new MessageDialog(ex.Message).ShowAsync();
+            }
         }
 
-        private void InitializeCommand()
+        private void InitializeCommands()
         {
-            ClearSession = new RelayCommand(Clear);
-            Authorization = new RelayCommand(Registration);
-            MusicCommand = new RelayCommand(GetFriendsMusicCollection);
+            ClearSessionCommand = new RelayCommand(async () => await ClearAsync(), () => Account != null);
+            LoginCommand = new RelayCommand(async () => await LoginAsync(), () => Account == null);
+            ShowMusicFriendsCommand = new RelayCommand(ShowMusicFriends, () => Account != null);
         }
 
-        private async void Registration()
+        private void ShowMusicFriends()
+        {
+            _navigationService.NavigateTo("FriendsPage");
+        }
+
+        private async Task LoginAsync()
         {
             if (Account == null)
-                await InitializeAccount();
-            else
-                await new MessageDialog("You are already authorized !!!").ShowAsync();
+                await LoginAccountAsync();
         }
 
-        private void Clear()
+        private async Task ClearAsync()
         {
-            _socialNetwork.LogoutAsync();
+            await _socialNetwork.LogoutAsync();
             Account = null;
             MusicCollection = null;
-            MusicProgress = 0;
-        }
-
-        private async void GetFriendsMusicCollection()
-        {
-            if (Account == null)
-            {
-                await new MessageDialog("To enter the application you need to log in.").ShowAsync();
-                return;
-            }
-
-            if (MusicCollection != null)
-            {
-                MusicCollection.Clear();
-                MusicProgress = 0;
-            }
-
-            Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.GetToken(), _endPoint, _args);
-            var progress = new Progress<double>(pr => MusicProgress = pr);
-            var musicGroups = await Task.Run(() => _iAccount.GetMusicFriendsGroupByPerformer(progress));
-            MusicCollection = new ObservableCollection<MusicGroup>(musicGroups);
         }
     }
 }

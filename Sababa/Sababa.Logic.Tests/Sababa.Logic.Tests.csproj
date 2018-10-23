@@ -39,6 +39,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBenchmark\BenchTest.cs" />
     <Compile Include="TestCuncurrentDictionary\TestDictionary.cs" />
+    <Compile Include="TestsFacebookClient\InitialAccountTest.cs" />
     <Compile Include="TestsMultithreading\TestsBenchmark\BenchmarkTestAutoResetEvent.cs" />
     <Compile Include="TestsMultithreading\TestsBenchmark\BenchmarkTestInterlocked.cs" />
     <Compile Include="TestsMultithreading\TestsBenchmark\BenchmarkTestLock.cs" />
@@ -65,12 +66,19 @@
     <None Include="TestsMultithreading\Statistic\ThreadsStatistic.xlsx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FacebookClient\FacebookClient.csproj">
+      <Project>{8f3f0a88-924f-4b40-90fd-b5214fc51fad}</Project>
+      <Name>FacebookClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sababa.Logic\Sababa.Logic.csproj">
       <Project>{0f2bc2d8-9ea1-40db-b937-758a355d1378}</Project>
       <Name>Sababa.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper">
+      <Version>7.0.1</Version>
+    </PackageReference>
     <PackageReference Include="BenchmarkDotNet">
       <Version>0.11.1</Version>
     </PackageReference>

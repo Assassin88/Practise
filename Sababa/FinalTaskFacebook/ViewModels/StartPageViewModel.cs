@@ -110,7 +110,7 @@ namespace FinalTaskFacebook.ViewModels
             if (Account == null)
                 await LoginAccountAsync();
         }
-
+        
         private async Task ClearAsync()
         {
             await _socialNetwork.LogoutAsync();

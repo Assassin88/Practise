@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using FacebookClient.Models;
 
@@ -20,7 +21,8 @@ namespace FacebookClient.Services.Abstraction
         /// return user friends music group by performer.
         /// </summary>
         /// <param name="musicProgress">Returns the percentage of music downloaded.</param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<MusicGroup>> GetMusicFriendsGroupByPerformerAsync(IProgress<double> musicProgress);
+        Task<IEnumerable<MusicGroup>> GetMusicFriendsGroupByPerformerAsync(IProgress<double> musicProgress, CancellationToken token);
     }
 }

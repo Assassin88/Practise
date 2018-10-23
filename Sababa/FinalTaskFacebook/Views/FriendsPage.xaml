@@ -78,8 +78,11 @@
             <Button  Width="150" Height="150" Content="Back" FontSize="20" Margin="0, 0, 0, 100"
                     Command="{Binding GoBackToStartPageCommand}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-            <Button Width="150"  Height="150" Content="Update" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                    Margin="0, 0, 0, 120" Command="{Binding UpdateMusicCommand}" />
+            <Button Width="150"  Height="150" Content="Update" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                    Margin="50, 0, 0, 120" Command="{Binding UpdateMusicCommand}" />
+
+            <Button Width="150"  Height="150" Content="StopLoad" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                    Margin="0, 0, 50, 120" Command="{Binding CancelTokenCommand}" />
 
             <ProgressBar Minimum="0" Maximum="100" Value ="{Binding MusicProgress}" Background="RoyalBlue" Foreground="Black"
                          BorderThickness="10" VerticalAlignment="Bottom" Height="40" Margin="20"/>

@@ -43,7 +43,8 @@ namespace FacebookClient.Services.Implementation
             return await Serializer.DeserializeObject<T>(response);
         }
 
-        public Task<IEnumerable<MusicGroup>> GetMusicFriendsGroupByPerformerAsync(IProgress<double> musicProgress)
+        public Task<IEnumerable<MusicGroup>> GetMusicFriendsGroupByPerformerAsync(IProgress<double> musicProgress,
+            CancellationToken token)
         {
             return Task.Run(() =>
             {
@@ -55,6 +56,9 @@ namespace FacebookClient.Services.Implementation
                 var musicFriends = new List<MusicFriends>();
                 foreach (var friend in AccountFriends)
                 {
+                    if (token.IsCancellationRequested)
+                        break;
+
                     foreach (var item in friend.MusicCollection)
                     {
                         musicFriends.Add(new MusicFriends() { Id = item.Id, Name = item.Name });
@@ -64,8 +68,8 @@ namespace FacebookClient.Services.Implementation
                 }
 
                 return from obj in musicFriends group obj by new { obj.Name }
-                        into gr orderby gr.Count() descending
-                        select new MusicGroup() { Name = gr.Key.Name, Count = gr.Count() };
+                       into gr orderby gr.Count() descending
+                       select new MusicGroup() { Name = gr.Key.Name, Count = gr.Count() };
             });
         }
 

@@ -30,7 +30,7 @@ namespace FinalTaskFacebook.Configuration
             containerBuilder.RegisterType<AuthorizationSocialNetwork>()
                 .As<ISocialNetwork>().SingleInstance();
 
-            containerBuilder.RegisterType<InitialAccount>().As<IAccount>().SingleInstance();
+            containerBuilder.RegisterType<Friends>().As<IFriends>().SingleInstance();
 
             return containerBuilder.Build();
         }

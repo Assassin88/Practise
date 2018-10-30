@@ -16,7 +16,7 @@ namespace FinalTaskFacebook.ViewModels
     public class StartPageViewModel : ViewModelBase
     {
         private readonly ISocialNetwork _socialNetwork;
-        private readonly IAccount _iAccount;
+        private readonly IFriends _iFriends;
         private readonly INavigationService _navigationService;
         private Account _account;
         private UserFriend _selectedFriend;
@@ -61,10 +61,10 @@ namespace FinalTaskFacebook.ViewModels
             }
         }
 
-        public StartPageViewModel(ISocialNetwork socialNetwork, IAccount iAccount, INavigationService navigationService)
+        public StartPageViewModel(ISocialNetwork socialNetwork, IFriends iFriends, INavigationService navigationService)
         {
             _socialNetwork = socialNetwork;
-            _iAccount = iAccount;
+            _iFriends = iFriends;
             _navigationService = navigationService;
             if (IsInDesignMode)
                 return;
@@ -77,9 +77,9 @@ namespace FinalTaskFacebook.ViewModels
             try
             {
                 Account = await _socialNetwork.AuthorizeAsync(FbSettings.UserId, FbSettings.Permissions);
-                Account.AccountFriends = await _iAccount.GetAccountFriendsAsync(_socialNetwork.Token, FbSettings.EndPoint, FbSettings.Args);
+                Account.AccountFriends = await _iFriends.GetAccountFriendsAsync(_socialNetwork.Token, FbSettings.EndPoint, FbSettings.Args);
             }
-            catch (FacebookResultException ex)
+            catch (LoginSessionException ex)
             {
                 await new MessageDialog(ex.Message).ShowAsync();
             }
@@ -87,7 +87,7 @@ namespace FinalTaskFacebook.ViewModels
             {
                 await new MessageDialog("Problems connecting to a remote server.").ShowAsync();
             }
-            catch (HttpResponseException ex)
+            catch (RemoveClientException ex)
             {
                 await new MessageDialog(ex.Message).ShowAsync();
             }
@@ -110,7 +110,7 @@ namespace FinalTaskFacebook.ViewModels
             if (Account == null)
                 await LoginAccountAsync();
         }
-        
+
         private async Task ClearAsync()
         {
             await _socialNetwork.LogoutAsync();

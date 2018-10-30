@@ -14,13 +14,13 @@ using FacebookClient.Settings;
 
 namespace FacebookClient.Services.Implementation
 {
-    public class InitialAccount : IAccount, IDisposable
+    public class Friends : IFriends, IDisposable
     {
         private readonly HttpClient _httpClient;
         private List<UserFriend> AccountFriends { get; set; }
         private const double Percent = 100;
 
-        public InitialAccount()
+        public Friends()
         {
             _httpClient = new HttpClient { BaseAddress = new Uri(FbSettings.BaseUri) };
         }
@@ -37,7 +37,7 @@ namespace FacebookClient.Services.Implementation
             var response = await _httpClient.GetAsync($"{endpoint}?access_token={accessToken}{args}");
             if (!response.IsSuccessStatusCode)
             {
-                throw new HttpResponseException("The web response did not have a successful code status");
+                throw new RemoveClientException("The web response did not have a successful code status");
             }
 
             return await Serializer.DeserializeObject<T>(response);

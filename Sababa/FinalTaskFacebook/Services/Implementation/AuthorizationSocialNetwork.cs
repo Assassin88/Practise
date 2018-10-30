@@ -24,7 +24,7 @@ namespace FinalTaskFacebook.Services.Implementation
             var fbResult = await _session.LoginAsync(new FBPermissions(permissions));
 
             if (!fbResult.Succeeded)
-                throw new FacebookResultException("The login on Facebook had invalid result. Please, log in Facebook!!!");
+                throw new LoginSessionException("The login on Facebook had invalid result. Please, log in Facebook!!!");
 
             return GetAccount();
         }

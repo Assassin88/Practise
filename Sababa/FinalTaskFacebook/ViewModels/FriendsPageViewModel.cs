@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -14,7 +15,7 @@ namespace FinalTaskFacebook.ViewModels
     public class FriendsPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IAccount _iAccount;
+        private readonly IFriends _iFriends;
         private ObservableCollection<MusicGroup> _musicCollection;
         private CancellationTokenSource _tokenSource;
         public double MusicProgress { get; private set; }
@@ -35,9 +36,9 @@ namespace FinalTaskFacebook.ViewModels
             }
         }
 
-        public FriendsPageViewModel(IAccount iAccount, INavigationService navigationService)
+        public FriendsPageViewModel(IFriends iFriends, INavigationService navigationService)
         {
-            _iAccount = iAccount;
+            _iFriends = iFriends;
             _navigationService = navigationService;
             InitCommand();
 
@@ -70,16 +71,17 @@ namespace FinalTaskFacebook.ViewModels
             _tokenSource = new CancellationTokenSource();
             try
             {
-                if (MusicCollection != null)
-                    MusicCollection = null;
+                MusicCollection = null;
 
                 var progress = new Progress<double>(pr => MusicProgress = pr);
-                var musicGroups = await _iAccount.GetMusicFriendsGroupByPerformerAsync(progress, _tokenSource.Token);
+                var musicGroups = await _iFriends.GetMusicFriendsGroupByPerformerAsync(progress, _tokenSource.Token);
+
+                if (musicGroups.Count() == 0)
+                {
+                    await new MessageDialog("Your friends have not music performers.").ShowAsync();
+                    return;
+                }
                 MusicCollection = new ObservableCollection<MusicGroup>(musicGroups);
-            }
-            catch (DivideByZeroException ex)
-            {
-                await new MessageDialog(ex.Message).ShowAsync();
             }
             finally
             {

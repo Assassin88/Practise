@@ -6,7 +6,7 @@ using FacebookClient.Models;
 
 namespace FacebookClient.Services.Abstraction
 {
-    public interface IAccount
+    public interface IFriends
     {
         /// <summary>
         /// Initializes the current account.
